@@ -1,0 +1,60 @@
+IP = 10.129.159.95
+
+SQL related 
+
+Common vulnerabilities - SQL Injection
+
+PII -> Personally identifiable information 
+
+OWASP top 10 
+	
+    A01:2021-Broken Access Control
+    A02:2021-Cryptographic Failures 
+    A03:2021-Injection <-
+    A04:2021-Insecure Design
+    A05:2021-Security Misconfiguration 
+    A06:2021-Vulnerable and Outdated Components
+    A07:2021-Identification and Authentication Failures
+    A08:2021-Software and Data Integrity Failures 
+    A09:2021-Security Logging and Monitoring Failures 
+    A10:2021-Server-Side Request Forgery
+
+# Nmap report [nmap 10.129.159.95]
+
+Nmap scan report for 10.129.159.95
+Host is up (0.063s latency).
+Not shown: 999 closed tcp ports (reset)
+PORT   STATE SERVICE VERSION
+80/tcp open  http    Apache httpd 2.4.38 ((Debian))
+
+
+#Gobuster report
+
+$ gobuster dir  --url http://10.129.159.95:80/ --wordlist SecLists/Discovery/Web-Content/directory-list-2.3-small.txt 
+===============================================================
+Gobuster v3.1.0
+by OJ Reeves (@TheColonial) & Christian Mehlmauer (@firefart)
+===============================================================
+[+] Url:                     http://10.129.159.95:80/
+[+] Method:                  GET
+[+] Threads:                 10
+[+] Wordlist:                SecLists/Discovery/Web-Content/directory-list-2.3-small.txt
+[+] Negative Status codes:   404
+[+] User Agent:              gobuster/3.1.0
+[+] Timeout:                 10s
+===============================================================
+2022/04/07 11:20:52 Starting gobuster in directory enumeration mode
+===============================================================
+/images               (Status: 301) [Size: 315] [--> http://10.129.159.95/images/]
+/css                  (Status: 301) [Size: 312] [--> http://10.129.159.95/css/]
+/js                   (Status: 301) [Size: 311] [--> http://10.129.159.95/js/]
+/vendor               (Status: 301) [Size: 315] [--> http://10.129.159.95/vendor/]
+/fonts                (Status: 301) [Size: 314] [--> http://10.129.159.95/fonts/] 
+===============================================================
+2022/04/07 11:29:52 Finished
+===============================================================
+
+
+SQL Injection 
+
+login: admin'#
