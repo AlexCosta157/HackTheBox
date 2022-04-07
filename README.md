@@ -2,6 +2,6 @@
 
 ## Tools used in:
 
-** Appointment:**  Nmap, Gobuster, https://github.com/danielmiessler/SecLists.git
+**Appointment:**  Nmap, Gobuster, https://github.com/danielmiessler/SecLists.git
 
-** Sequel:**  Nmap, mysql
+**Sequel:**  Nmap, mysql
